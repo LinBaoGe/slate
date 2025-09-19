@@ -23,7 +23,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '酥脆炸鸡胸肉配特调蛋黄酱和酸黄瓜',
     price: 32,
     category: 'main',
-    imageUrl: '/images/chicken-burger.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '3',
@@ -31,7 +31,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '金黄酥脆，外焦里嫩，撒上海盐',
     price: 18,
     category: 'main',
-    imageUrl: '/images/fries.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '4',
@@ -39,7 +39,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '香浓巧克力口味，顶部配鲜奶油和巧克力碎',
     price: 22,
     category: 'desserts',
-    imageUrl: '/images/chocolate-shake.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '5',
@@ -47,7 +47,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '双层牛肉饼搭配融化芝士和新鲜蔬菜',
     price: 42,
     category: 'main',
-    imageUrl: '/images/double-cheeseburger.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '6',
@@ -55,7 +55,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '意式浓缩咖啡与冰牛奶的完美融合',
     price: 25,
     category: 'drinks',
-    imageUrl: '/images/ice-latte.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '7',
@@ -63,7 +63,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '新鲜草莓制作，顶部配鲜奶油和草莓粒',
     price: 22,
     category: 'desserts',
-    imageUrl: '/images/strawberry-shake.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '8',
@@ -71,7 +71,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '冰镇可口可乐，畅快淋漓',
     price: 12,
     category: 'drinks',
-    imageUrl: '/images/cola.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '9',
@@ -79,7 +79,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '酥脆外皮包裹香甜苹果馅料',
     price: 15,
     category: 'desserts',
-    imageUrl: '/images/apple-pie.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '10',
@@ -87,7 +87,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '金黄酥脆的鸡块，配特色蘸酱',
     price: 28,
     category: 'main',
-    imageUrl: '/images/chicken-nuggets.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '11',
@@ -95,7 +95,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '清新柠檬与红茶的完美结合',
     price: 16,
     category: 'drinks',
-    imageUrl: '/images/lemon-tea.jpg',
+    imageUrl: '/images/burger.jpg',
   },
   {
     id: '12',
@@ -103,6 +103,46 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '经典香草口味，丝滑细腻',
     price: 14,
     category: 'desserts',
-    imageUrl: '/images/vanilla-icecream.jpg',
+    imageUrl: '/images/burger.jpg',
+  },
+  {
+    id: '13',
+    name: '柠檬冰茶',
+    description: '清新柠檬与红茶的完美结合',
+    price: 16,
+    category: 'drinks',
+    imageUrl: '/images/burger.jpg',
+  },
+  {
+    id: '14',
+    name: '柠檬冰茶',
+    description: '清新柠檬与红茶的完美结合',
+    price: 16,
+    category: 'drinks',
+    imageUrl: '/images/burger.jpg',
+  },
+  {
+    id: '15',
+    name: '柠檬冰茶',
+    description: '清新柠檬与红茶的完美结合',
+    price: 16,
+    category: 'drinks',
+    imageUrl: '/images/burger.jpg',
+  },
+  {
+    id: '16',
+    name: '柠檬冰茶',
+    description: '清新柠檬与红茶的完美结合',
+    price: 16,
+    category: 'drinks',
+    imageUrl: '/images/burger.jpg',
+  },
+  {
+    id: '17',
+    name: '柠檬冰茶',
+    description: '清新柠檬与红茶的完美结合',
+    price: 16,
+    category: 'drinks',
+    imageUrl: '/images/burger.jpg',
   },
 ];

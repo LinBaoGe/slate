@@ -72,7 +72,6 @@ export const useCartStore = create<CartState>()(
         }));
       },
 
-      // 清空购物车
       clearCart: () => {
         set({
           items: [],

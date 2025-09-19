@@ -1,4 +1,3 @@
-// src/components/menu/CategorySection.tsx
 'use client';
 
 import { useInView } from 'react-intersection-observer';
@@ -9,32 +8,35 @@ import { useEffect } from 'react';
 interface CategorySectionProps {
   category: string;
   items: MenuItem[];
-  onVisible: () => void;
+  // onVisible 不再是简单的函数，而是报告自己的状态
+  onVisibilityChange: (category: string, isVisible: boolean) => void;
 }
 
 export default function CategorySection({
   category,
   items,
-  onVisible,
+  onVisibilityChange,
 }: CategorySectionProps) {
-  // useInView 是这个库的核心 Hook
   const { ref, inView } = useInView({
-    threshold: 0.5, // 当元素 50% 可见时，才算作 inView
+    // 我们还是用这个精确的 rootMargin 来定义触发线
+    rootMargin: '0px 0px -100% 0px',
+    threshold: 0,
   });
 
-  // 使用 useEffect 来监听 inView 的变化
+  // 使用 useEffect 来报告 inView 的任何变化
   useEffect(() => {
-    // 当这个区块进入视野时，调用父组件传来的 onVisible 函数
-    if (inView) {
-      onVisible();
-    }
-  }, [inView, onVisible]);
+    onVisibilityChange(category, inView);
+  }, [inView, category, onVisibilityChange]);
 
   return (
-    // 把 ref 绑定到这个区块的根元素上
-    // 并且给它一个唯一的 ID，用于点击联动
-    <div id={`category-${category}`} ref={ref} className="mb-10">
-      <h2 className="mb-4 text-2xl font-semibold">{category}</h2>
+    <div id={`category-${category}`}>
+      <h2 ref={ref} className="-mt-4 mb-4 pt-4 text-2xl font-semibold">
+        {category}
+      </h2>
+      {/* 
+        给 h2 加上 padding-top 和 negative margin-top 是一个小技巧，
+        可以增大它的“可点击/可观察”区域，而不影响视觉布局。
+      */}
       <div className="flex flex-col gap-4">
         {items.map((item) => (
           <MenuItemCard key={item.id} item={item} />
