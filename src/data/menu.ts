@@ -15,7 +15,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '多汁牛肉饼配新鲜生菜和秘制酱料',
     price: 35,
     category: 'main',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '2',
@@ -23,7 +24,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '酥脆炸鸡胸肉配特调蛋黄酱和酸黄瓜',
     price: 32,
     category: 'main',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '3',
@@ -31,7 +33,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '金黄酥脆，外焦里嫩，撒上海盐',
     price: 18,
     category: 'main',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '4',
@@ -39,7 +42,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '香浓巧克力口味，顶部配鲜奶油和巧克力碎',
     price: 22,
     category: 'desserts',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '5',
@@ -47,7 +51,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '双层牛肉饼搭配融化芝士和新鲜蔬菜',
     price: 42,
     category: 'main',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '6',
@@ -55,7 +60,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '意式浓缩咖啡与冰牛奶的完美融合',
     price: 25,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '7',
@@ -63,7 +69,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '新鲜草莓制作，顶部配鲜奶油和草莓粒',
     price: 22,
     category: 'desserts',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '8',
@@ -71,7 +78,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '冰镇可口可乐，畅快淋漓',
     price: 12,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '9',
@@ -79,7 +87,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '酥脆外皮包裹香甜苹果馅料',
     price: 15,
     category: 'desserts',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '10',
@@ -87,7 +96,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '金黄酥脆的鸡块，配特色蘸酱',
     price: 28,
     category: 'main',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '11',
@@ -95,7 +105,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '清新柠檬与红茶的完美结合',
     price: 16,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '12',
@@ -103,7 +114,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '经典香草口味，丝滑细腻',
     price: 14,
     category: 'desserts',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '13',
@@ -111,7 +123,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '清新柠檬与红茶的完美结合',
     price: 16,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '14',
@@ -119,7 +132,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '清新柠檬与红茶的完美结合',
     price: 16,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '15',
@@ -127,7 +141,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '清新柠檬与红茶的完美结合',
     price: 16,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '16',
@@ -135,7 +150,8 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '清新柠檬与红茶的完美结合',
     price: 16,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
   {
     id: '17',
@@ -143,6 +159,7 @@ export const MOCK_MENU_DATA: MenuItem[] = [
     description: '清新柠檬与红茶的完美结合',
     price: 16,
     category: 'drinks',
-    imageUrl: '/images/burger.jpg',
+    imageUrl:
+      'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
   },
 ];

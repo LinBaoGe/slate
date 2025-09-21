@@ -1,14 +1,14 @@
 'use client';
 
-import { useMemo, useState, useRef, UIEvent, useEffect } from 'react'; // 导入 useReducer 和 useMemo
-import { useQuery } from '@tanstack/react-query'; // 1. 导入 useQuery
+import { useMemo, useState, useRef, UIEvent, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import MenuList from '@/components/menu/MenuList';
 import { Skeleton } from '@/components/ui/skeleton';
-import { MenuItem } from '@/data/menu'; // 导入骨架屏组件
+import { MenuItem } from '@/data/menu';
+import { useSearchParams } from 'next/navigation';
 
-// 2. 创建一个 API 请求函数
-const fetchMenu = async (): Promise<MenuItem[]> => {
-  const res = await fetch('/api/menu');
+const fetchMenu = async (restaurantId: string): Promise<MenuItem[]> => {
+  const res = await fetch(`/api/customer/menu?restaurant_id=${restaurantId}`);
   if (!res.ok) {
     throw new Error('Network response was not ok');
   }
@@ -16,16 +16,21 @@ const fetchMenu = async (): Promise<MenuItem[]> => {
 };
 
 export default function MenuPage() {
+  const searchParams = useSearchParams();
+  const restaurantId = searchParams.get('restaurant_id') ?? '';
+  console.log('client restaurantId', restaurantId);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const isScrollingProgrammatically = useRef(false);
+
   const {
     data: menuData,
     isLoading,
     isError,
   } = useQuery({
     queryKey: ['menu'], // 缓存的键
-    queryFn: fetchMenu, // 获取数据的函数
+    queryFn: () => fetchMenu(restaurantId), // 获取数据的函数
   });
+
   const categories = useMemo(() => {
     if (!menuData) return [];
     return [...new Set(menuData.map((item) => item.category))];
