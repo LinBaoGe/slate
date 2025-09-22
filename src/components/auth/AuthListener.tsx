@@ -22,7 +22,6 @@ export default function AuthListener() {
     // 2. 设置 onAuthStateChange 监听器
     const { data: authListener } = supabaseBrowserClient.auth.onAuthStateChange(
       (event, session) => {
-        console.log('Auth event:', event); // 方便调试
         setUser(session?.user ?? null);
         setLoading(false);
       },

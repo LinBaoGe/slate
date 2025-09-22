@@ -35,7 +35,6 @@ export default function ProfilePage() {
       // 我们只需要把用户导航到安全的地方。
       router.push('/'); // 跳转到首页
     } catch (error) {
-      console.error('登出时发生错误:', error);
       alert('登出失败，请稍后再试。');
     }
   };

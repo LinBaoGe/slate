@@ -16,7 +16,6 @@ export default function SignOutButton() {
       // 登出成功后，跳转到登录页
       router.push('/login');
     } catch (error) {
-      console.error('Error signing out:', error);
       alert('登出失败，请重试。');
     }
   };

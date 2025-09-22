@@ -47,12 +47,8 @@ export default function LoginPage() {
         throw signInError;
       }
 
-      // 登录成功！
-      // Supabase 的客户端库会自动处理 session 和 cookie，我们只需要跳转页面
       router.push('/admin/dashboard'); // 重定向到商家后台的仪表盘
     } catch (err) {
-      console.error('登录过程中发生错误:', err);
-      // 3. 使用你的通用函数来处理错误
       setError(getErrorMessage(err));
     } finally {
       setIsLoading(false);

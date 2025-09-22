@@ -12,8 +12,6 @@ const fetchAdminMenu = async (): Promise<MenuItem[]> => {
     credentials: 'include',
   });
 
-  console.log('res', res);
-
   if (!res.ok) {
     throw new Error('Failed to fetch menu');
   }

@@ -72,7 +72,6 @@ export default function SignUpPage() {
       router.push('/login'); // 重定向到登录页面
     } catch (err) {
       // 捕获所有错误
-      console.error('注册过程中发生错误:', err);
       setError(getErrorMessage(err));
     } finally {
       // 无论成功还是失败，最后都结束加载状态

@@ -6,7 +6,6 @@ import { useAuthStore } from '@/store/authStore';
 
 export default function AdminSidebar() {
   const { user } = useAuthStore();
-  console.log('adminSidebar', user);
 
   return (
     <aside className="flex w-64 flex-shrink-0 flex-col bg-slate-800 p-4 text-white">

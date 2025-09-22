@@ -18,7 +18,6 @@ const fetchMenu = async (restaurantId: string): Promise<MenuItem[]> => {
 export default function MenuPage() {
   const searchParams = useSearchParams();
   const restaurantId = searchParams.get('restaurant_id') ?? '';
-  console.log('client restaurantId', restaurantId);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const isScrollingProgrammatically = useRef(false);
 

@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { MOCK_MENU_DATA } from '@/data/menu';
-import { supabaseServerClient } from '@/utils/supabase/server'; // 我们暂时还用模拟数据
+import { supabaseServerClient } from '@/utils/supabase/server';
+import { MenuItemCamel } from '@/types/schemas/menu';
 
 export async function GET(req: NextRequest) {
-  console.log(req);
   const { searchParams } = new URL(req.url);
   const restaurantId = searchParams.get('restaurant_id');
-  console.log('server restaurantId', restaurantId);
-
   const supabaseServer = await supabaseServerClient();
 
   const { data: menuItems, error: menuError } = await supabaseServer
@@ -19,6 +16,14 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: menuError.message }, { status: 500 });
   }
 
-  console.log('menuItems', menuItems);
-  return NextResponse.json(menuItems);
+  const parsed = MenuItemCamel.array().safeParse(menuItems);
+
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Invalid data from DB' },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json(parsed.data); // 类型安全 + 校验
 }
