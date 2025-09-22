@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { MenuItem } from '@/data/menu'; // 导入我们之前定义的数据类型
+import { MenuItem } from '@/data/menu';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/cartStore';
+import { CirclePlus, CircleMinus } from 'lucide-react';
 
 interface MenuItemCardProps {
   item: MenuItem;
@@ -39,9 +40,10 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
           <span className="text-lg font-semibold text-red-500">
             ¥{item.price.toFixed(2)}
           </span>
-          <Button size="sm" onClick={() => addItemToCart(item)}>
-            +
-          </Button>
+          {/*<Button size="sm" onClick={() => addItemToCart(item)}>*/}
+          {/*  +*/}
+          {/*</Button>*/}
+          <CirclePlus onClick={() => addItemToCart(item)} />
         </div>
       </div>
     </div>
