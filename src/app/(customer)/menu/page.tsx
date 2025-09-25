@@ -4,7 +4,7 @@ import { useMemo, useState, useRef, UIEvent, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import MenuList from '@/components/menu/MenuList';
 import { Skeleton } from '@/components/ui/skeleton';
-import { MenuItem } from '@/data/menu';
+import { MenuItem } from '@/types/schemas/menu';
 import { useSearchParams } from 'next/navigation';
 
 const fetchMenu = async (restaurantId: string): Promise<MenuItem[]> => {

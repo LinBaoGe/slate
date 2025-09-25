@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseServerClient } from '@/utils/supabase/server';
 import { MenuItemCamel } from '@/types/schemas/menu';
+import { convertToCamelCase } from '@/utils/utils';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -16,7 +17,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: menuError.message }, { status: 500 });
   }
 
-  const parsed = MenuItemCamel.array().safeParse(menuItems);
+  const parsed = MenuItemCamel.array().safeParse(convertToCamelCase(menuItems));
 
   if (!parsed.success) {
     return NextResponse.json(

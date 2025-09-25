@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { convertToCamelCase } from '@/utils/utils';
 
 export const MenuItemSnake = z.object({
   id: z.number(),
@@ -10,8 +9,14 @@ export const MenuItemSnake = z.object({
   image_url: z.string(),
 });
 
-export const MenuItemCamel = MenuItemSnake.transform((data) =>
-  convertToCamelCase(data),
-);
+export const MenuItemCamel = z.object({
+  // transform()怎么用
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  category: z.string(),
+  imageUrl: z.string(),
+});
 
 export type MenuItem = z.infer<typeof MenuItemCamel>;

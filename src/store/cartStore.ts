@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { MenuItem } from '@/data/menu'; // 导入我们的菜品类型
+import { MenuItem } from '@/types/schemas/menu';
 
 // 1. 定义购物车中单个商品的类型，它需要包含菜品信息和数量
 export interface CartItem extends MenuItem {
@@ -13,7 +13,7 @@ interface CartState {
   totalPrice: number;
   totalQuantity: number;
   addItem: (itemToAdd: MenuItem) => void;
-  removeItem: (itemId: string) => void;
+  removeItem: (itemId: number) => void;
   clearCart: () => void;
 }
 
