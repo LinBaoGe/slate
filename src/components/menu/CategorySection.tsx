@@ -1,7 +1,7 @@
 'use client';
 
 import { useInView } from 'react-intersection-observer';
-import { MenuItem } from '@/data/menu';
+import { MenuItem } from '@/types/schemas/menu';
 import MenuItemCard from './MenuItemCard';
 import { useEffect } from 'react';
 

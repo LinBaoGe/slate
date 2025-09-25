@@ -1,6 +1,6 @@
 'use client';
 
-import { MenuItem } from '@/data/menu';
+import { MenuItem } from '@/types/schemas/menu';
 import CategorySection from './CategorySection';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 

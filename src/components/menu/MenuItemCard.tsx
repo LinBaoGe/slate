@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { MenuItem } from '@/data/menu'; // 导入我们之前定义的数据类型
-import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/cartStore';
+import { CirclePlus } from 'lucide-react';
+import { MenuItem } from '@/types/schemas/menu';
 
 interface MenuItemCardProps {
   item: MenuItem;
@@ -12,12 +12,7 @@ interface MenuItemCardProps {
 export default function MenuItemCard({ item }: MenuItemCardProps) {
   const addItemToCart = useCartStore((state) => state.addItem);
 
-  const handleAddToCart = () => {
-    addItemToCart(item);
-  };
-
   return (
-    // 卡片整体是一个横向的 Flexbox 容器
     <div className="flex overflow-hidden rounded-lg bg-white shadow-md">
       <div className="relative h-24 w-24 flex-shrink-0">
         <Image
@@ -39,9 +34,10 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
           <span className="text-lg font-semibold text-red-500">
             ¥{item.price.toFixed(2)}
           </span>
-          <Button size="sm" onClick={() => addItemToCart(item)}>
-            +
-          </Button>
+          {/*<Button size="sm" onClick={() => addItemToCart(item)}>*/}
+          {/*  +*/}
+          {/*</Button>*/}
+          <CirclePlus onClick={() => addItemToCart(item)} />
         </div>
       </div>
     </div>
