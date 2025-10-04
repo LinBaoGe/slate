@@ -1,88 +1,114 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { MenuItem } from '@/types/schemas/menu';
+import { persist } from 'zustand/middleware';
+import { isEqual } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
+import { CartItem, CartState, ItemToAdd } from '@/types/store/cart';
+import { MenuItem } from '@/types/menu';
 
-// 1. 定义购物车中单个商品的类型，它需要包含菜品信息和数量
-export interface CartItem extends MenuItem {
-  quantity: number;
+function handleExistingItem(item: CartItem, itemToAdd: ItemToAdd): CartItem {
+  // 处理器 A: 处理已存在的商品
+  return { ...item, quantity: item.quantity + itemToAdd.quantity };
 }
 
-// 2. 定义整个 Store 的状态 (State) 和操作 (Actions) 的类型
-interface CartState {
-  items: CartItem[];
-  totalPrice: number;
-  totalQuantity: number;
-  addItem: (itemToAdd: MenuItem) => void;
-  removeItem: (itemId: number) => void;
-  clearCart: () => void;
+function handleNewItem(itemToAdd: ItemToAdd): CartItem {
+  // 处理器 B: 处理新商品
+  return {
+    ...itemToAdd,
+    cartItemId: uuidv4(),
+  };
 }
 
-// 3. 使用 zustand 的 create 函数来创建 store
+// --- 处理器 (Strategies / Handlers) for updateSimpleItemQuantity ---
+
+// 策略 1: 更新一个已存在商品的数量
+function handleUpdateQuantity(
+  items: CartItem[],
+  cartItemId: string,
+  newQuantity: number,
+): CartItem[] {
+  return items.map((item) =>
+    item.cartItemId === cartItemId ? { ...item, quantity: newQuantity } : item,
+  );
+}
+
+// 策略 2: 从购物车中移除一个商品
+function handleRemoveItem(items: CartItem[], cartItemId: string): CartItem[] {
+  return items.filter((item) => item.cartItemId !== cartItemId);
+}
+
+// 策略 3: 向购物车新增一个简单商品
+function handleAddNewSimpleItem(
+  items: CartItem[],
+  itemToAdd: MenuItem,
+  newQuantity: number,
+): CartItem[] {
+  const newCartItem: CartItem = {
+    ...itemToAdd,
+    cartItemId: uuidv4(),
+    quantity: newQuantity,
+    unitPrice: itemToAdd.basePrice,
+    selectedOptions: undefined,
+  };
+  return [...items, newCartItem];
+}
+
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
-      // 初始状态
       items: [],
-      totalPrice: 0,
-      totalQuantity: 0,
 
-      // --- Actions ---
-
-      // 添加商品到购物车
       addItem: (itemToAdd) => {
-        const { items } = get(); // `get()` 函数可以让你在 action 内部获取当前的状态
-        const existingItem = items.find((item) => item.id === itemToAdd.id);
+        const { items } = get();
+
+        const existingItemIndex = items.findIndex(
+          (item) =>
+            item.id === itemToAdd.id && isEqual(item.selectedOptions, itemToAdd.selectedOptions),
+        );
+        // 普通商品的undefined也可以用isEqual()处理
 
         let updatedItems: CartItem[];
 
-        if (existingItem) {
-          // 如果商品已存在，则只增加数量
-          updatedItems = items.map((item) =>
-            item.id === itemToAdd.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item,
-          );
+        if (existingItemIndex !== -1) {
+          updatedItems = [...items]; // 创建一个副本
+          const existingItem = items[existingItemIndex];
+          updatedItems[existingItemIndex] = handleExistingItem(existingItem, itemToAdd);
         } else {
-          // 如果商品不存在，则新增一个，数量为1
-          updatedItems = [...items, { ...itemToAdd, quantity: 1 }];
+          // 如果是新商品或新规格组合，则新增一项
+          const newItems = handleNewItem(itemToAdd);
+          updatedItems = [...items, newItems];
         }
 
-        // 更新状态
+        set({ items: updatedItems });
+      },
+
+      removeItem: (cartItemIdToRemove) => {
         set((state) => ({
-          items: updatedItems,
-          totalQuantity: state.totalQuantity + 1,
-          totalPrice: state.totalPrice + itemToAdd.price,
+          items: state.items.filter((item) => item.cartItemId !== cartItemIdToRemove),
         }));
       },
 
-      // 从购物车移除一个商品（不管数量多少，整个移除）
-      removeItem: (itemIdToRemove) => {
-        const { items } = get();
-        const itemToRemove = items.find((item) => item.id === itemIdToRemove);
-
-        if (!itemToRemove) return; // 如果商品不存在，什么都不做
-
-        const updatedItems = items.filter((item) => item.id !== itemIdToRemove);
-
+      updateItemQuantity: (cartItemIdToUpdate, newQuantity) => {
         set((state) => ({
-          items: updatedItems,
-          totalQuantity: state.totalQuantity - itemToRemove.quantity,
-          totalPrice:
-            state.totalPrice - itemToRemove.price * itemToRemove.quantity,
+          items: state.items
+            .map((item) =>
+              item.cartItemId === cartItemIdToUpdate ? { ...item, quantity: newQuantity } : item,
+            )
+            .filter((item) => item.quantity > 0), // 如果数量减到0，就直接移除
         }));
       },
 
       clearCart: () => {
-        set({
-          items: [],
-          totalPrice: 0,
-          totalQuantity: 0,
-        });
+        set({ items: [] });
       },
     }),
     {
-      name: 'cart-storage', // 存储在 localStorage 里的 key
-      storage: createJSONStorage(() => localStorage), // (可选) 指定使用 localStorage
+      name: 'cart-storage',
     },
   ),
 );
+
+export const selectCartTotalQuantity = (state: CartState) =>
+  state.items.reduce((total, item) => total + item.quantity, 0);
+
+export const selectCartTotalPrice = (state: CartState) =>
+  state.items.reduce((total, item) => total + item.unitPrice * item.quantity, 0);

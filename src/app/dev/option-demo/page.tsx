@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { OptionSelector } from '@/components/menu/OptionSelector';
 import { QuantitySelector } from '@/components/menu/QuantitySelector';
 import type { OptionGroup } from '@/types/menu';
 import { Button } from '@/components/ui/button';
@@ -37,10 +36,7 @@ const initSelected = {
   veggie: ['spinach'],
 };
 
-function calcOptionDelta(
-  value: Record<string, string[]>,
-  groups: OptionGroup[],
-) {
+function calcOptionDelta(value: Record<string, string[]>, groups: OptionGroup[]) {
   let sum = 0;
   for (const g of groups) {
     const chosen = value[g.id] ?? [];
@@ -50,24 +46,16 @@ function calcOptionDelta(
   return sum;
 }
 
-function requiredFilled(
-  value: Record<string, string[]>,
-  groups: OptionGroup[],
-) {
-  return groups
-    .filter((g) => g.required)
-    .every((g) => (value[g.id]?.length ?? 0) > 0);
+function requiredFilled(value: Record<string, string[]>, groups: OptionGroup[]) {
+  return groups.filter((g) => g.required).every((g) => (value[g.id]?.length ?? 0) > 0);
 }
 
 export default function OptionDemoPage() {
-  const [selected, setSelected] =
-    useState<Record<string, string[]>>(initSelected);
+  // const [selected, setSelected] = useState<Record<string, string[]>>(initSelected);
+  const selected = initSelected;
   const [qty, setQty] = useState(1);
 
-  const optionDelta = useMemo(
-    () => calcOptionDelta(selected, groups),
-    [selected],
-  );
+  const optionDelta = useMemo(() => calcOptionDelta(selected, groups), [selected]);
   const unitPrice = basePrice + optionDelta;
   const total = unitPrice * qty;
 
@@ -78,11 +66,11 @@ export default function OptionDemoPage() {
       <h1 className="text-xl font-semibold">汉堡自定义示例</h1>
 
       <section className="space-y-4">
-        <OptionSelector
-          groups={groups}
-          value={selected}
-          onChange={setSelected}
-        />
+        {/*<OptionSelector*/}
+        {/*  groups={groups}*/}
+        {/*  value={selected}*/}
+        {/*  onChange={setSelected}*/}
+        {/*/>*/}
         <div className="flex items-center justify-between">
           <span className="text-muted-foreground text-sm">
             单价 = 基础 {basePrice} + 配料 {optionDelta} = <b>{unitPrice}</b>
@@ -98,9 +86,7 @@ export default function OptionDemoPage() {
         <Button
           disabled={!canConfirm}
           data-testid="confirm"
-          onClick={() =>
-            alert(`下单成功！配置=${JSON.stringify(selected)} 数量=${qty}`)
-          }
+          onClick={() => alert(`下单成功！配置=${JSON.stringify(selected)} 数量=${qty}`)}
           className="w-full"
         >
           确认加入购物车
@@ -109,9 +95,7 @@ export default function OptionDemoPage() {
 
       <section className="bg-muted/50 rounded-lg p-3">
         <div className="text-muted-foreground mb-1 text-xs">当前选中：</div>
-        <pre className="text-xs whitespace-pre-wrap">
-          {JSON.stringify(selected, null, 2)}
-        </pre>
+        <pre className="text-xs whitespace-pre-wrap">{JSON.stringify(selected, null, 2)}</pre>
       </section>
     </main>
   );

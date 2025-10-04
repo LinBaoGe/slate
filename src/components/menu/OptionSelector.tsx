@@ -1,17 +1,12 @@
-import { OptionGroup } from '@/types/menu';
+import { ModifierGroup } from '@/data/menuWithModifiers';
 
-// 组件的 props
 interface OptionSelectorProps {
-  groups: OptionGroup[];
+  groups: ModifierGroup[];
   value: Record<string, string[]>; // groupId -> optionId[]（多选用数组）
   onChange: (newValue: Record<string, string[]>) => void;
 }
 
-export function OptionSelector({
-  groups,
-  value,
-  onChange,
-}: OptionSelectorProps) {
+export function OptionSelector({ groups, value, onChange }: OptionSelectorProps) {
   // 切换单选
   const handleSingleChange = (groupId: string, optionId: string) => {
     onChange({ ...value, [groupId]: [optionId] });
@@ -21,9 +16,7 @@ export function OptionSelector({
   const handleMultiChange = (groupId: string, optionId: string) => {
     const prev = value[groupId] || [];
     const exists = prev.includes(optionId);
-    const newOptions = exists
-      ? prev.filter((id) => id !== optionId)
-      : [...prev, optionId];
+    const newOptions = exists ? prev.filter((id) => id !== optionId) : [...prev, optionId];
     onChange({ ...value, [groupId]: newOptions });
   };
 
@@ -33,7 +26,7 @@ export function OptionSelector({
         <div key={group.id}>
           <p className="mb-2 font-medium">
             {group.name}
-            {group.required && <span className="ml-1 text-red-500">*</span>}
+            {group.isRequired && <span className="ml-1 text-red-500">*</span>}
           </p>
 
           <div className="flex flex-wrap gap-2">
@@ -43,7 +36,7 @@ export function OptionSelector({
                 <button
                   key={opt.id}
                   onClick={() =>
-                    group.type === 'single'
+                    group.selectionType === 'single'
                       ? handleSingleChange(group.id, opt.id)
                       : handleMultiChange(group.id, opt.id)
                   }
@@ -56,9 +49,7 @@ export function OptionSelector({
                   {opt.name}
                   {opt.priceDelta !== 0 && (
                     <span className="ml-1 text-sm text-gray-500">
-                      {opt.priceDelta > 0
-                        ? `+${opt.priceDelta}`
-                        : opt.priceDelta}
+                      {opt.priceDelta > 0 ? `+${opt.priceDelta}` : opt.priceDelta}
                     </span>
                   )}
                 </button>

@@ -1,46 +1,8 @@
-export interface Modifier {
-  id: string; // UUID
-  name: string;
-  priceDelta: number;
-  displayOrder: number;
-}
-
-export interface ModifierGroup {
-  id: string; // UUID
-  name: string;
-  selectionType: 'single' | 'multiple';
-  isRequired: boolean;
-  defaultOptionId?: string | null; // UUID of the default modifier
-  displayOrder: number;
-  options: Modifier[];
-}
-
-export interface MenuItemWithModifiers {
-  id: string; // UUID
-  name: string;
-  description: string;
-  basePrice: number;
-  category: string; // 我们不再用联合类型，因为分类是动态的
-  imageUrl: string;
-  displayOrder: number;
-  modifierGroups?: ModifierGroup[];
-}
-
-// 整个菜单的数据结构，模拟 API 返回
-export interface FullMenuData {
-  restaurantId: string; // UUID
-  categories: {
-    id: string; // UUID
-    name: string;
-    displayOrder: number;
-    menuItems: MenuItemWithModifiers[];
-  }[];
-}
+import { FullMenuData } from '@/types/menu';
 
 export const MOCK_FULL_MENU_DATA: FullMenuData = {
   restaurantId: '7b1fe6ea-d865-414c-ab9f-58fe6a1d01c8',
   categories: [
-    // --- 分类 1: 主食 (Main Courses) ---
     {
       id: 'a1b2c3d4-e5f6-7890-1234-567890abcdef',
       name: '主食',
@@ -53,7 +15,7 @@ export const MOCK_FULL_MENU_DATA: FullMenuData = {
           basePrice: 38.0,
           category: '主食',
           imageUrl:
-            'https://res.cloudinary.com/demo/image/upload/food/burger.jpg',
+            'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
           displayOrder: 1,
           modifierGroups: [
             {
@@ -115,12 +77,11 @@ export const MOCK_FULL_MENU_DATA: FullMenuData = {
           basePrice: 42.0,
           category: '主食',
           imageUrl:
-            'https://res.cloudinary.com/demo/image/upload/food/salad.jpg',
+            'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
           displayOrder: 2,
         },
       ],
     },
-    // --- 分类 2: 饮品 (Drinks) ---
     {
       id: 'e5f6a7b8-c9d0-e1f2-a3b4-c5d6e7f8a9b0',
       name: '饮品',
@@ -133,7 +94,7 @@ export const MOCK_FULL_MENU_DATA: FullMenuData = {
           basePrice: 28.0,
           category: '饮品',
           imageUrl:
-            'https://res.cloudinary.com/demo/image/upload/food/latte.jpg',
+            'https://zenklgcenvgjolmzdjqg.supabase.co/storage/v1/object/public/menu-images/burger.jpg',
           displayOrder: 1,
           modifierGroups: [
             {
