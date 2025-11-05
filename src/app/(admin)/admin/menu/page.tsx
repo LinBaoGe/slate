@@ -2,8 +2,8 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { MenuItem } from '@/data/menu';
 import MenuTable from '@/components/admin/menu/MenuTable';
+import { MenuItem } from '@/types/menu';
 
 // 定义获取数据的函数
 const fetchAdminMenu = async (): Promise<MenuItem[]> => {

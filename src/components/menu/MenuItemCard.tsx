@@ -1,13 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { selectCartTotalQuantity, useCartStore } from '@/store/cartStore';
+import { useCartStore } from '@/store/cart/cart.store';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import ModifierDialog from '@/components/menu/ModifierDialog';
 import { QuantitySelector } from '@/components/menu/QuantitySelector';
-import { ItemToAdd } from '@/types/store/cart';
+import { ItemToAdd } from '@/store/cart/cart.types';
 import { MenuItemWithModifiers } from '@/types/menu';
+import { selectSimpleItemQuantityById } from '@/store/cart/cart.selectors';
 
 interface MenuItemCardProps {
   item: MenuItemWithModifiers;
@@ -15,7 +16,6 @@ interface MenuItemCardProps {
 
 export default function MenuItemCard({ item }: MenuItemCardProps) {
   const addItem = useCartStore((state) => state.addItem);
-  const totalItems = useCartStore((state) => state.items);
   const [shownModifier, setShowModifier] = useState(false);
 
   // const [selectedItemForModification, setSelectedItemForModification] =
@@ -30,16 +30,11 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
     handleCloseDialog();
   };
 
-  const quantity = useCartStore(selectCartTotalQuantity);
+  const quantityById = selectSimpleItemQuantityById(item.id);
 
-  // const handleAddToCartFromSimpleGood = () => {
-  //   const itemToAdd: ItemToAdd = {
-  //     ...item, // 基础菜品信息
-  //     quantity: quantity, // 每次增加 1
-  //     unitPrice: item.basePrice, // 简单商品的单价就是基础价
-  //   };
-  //   addItem(itemToAdd);
-  // };
+  const quantity = useCartStore(quantityById);
+
+  const updateSimpleItemQuantity = useCartStore((state) => state.updateSimpleItemQuantity);
 
   return (
     <div className="flex overflow-hidden rounded-lg bg-white shadow-md">
@@ -62,7 +57,11 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
               选规格
             </Button>
           ) : (
-            <QuantitySelector value={quantity} onChange={() => {}} min={0} />
+            <QuantitySelector
+              value={quantity}
+              onChange={(newQuantity) => updateSimpleItemQuantity(item, newQuantity)}
+              min={0}
+            />
           )}
 
           <ModifierDialog

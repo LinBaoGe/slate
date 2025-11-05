@@ -5,8 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import MenuList from '@/components/menu/MenuList';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSearchParams } from 'next/navigation';
-import { MOCK_FULL_MENU_DATA, Categories } from '@/data/menuWithModifiers';
+import { MOCK_FULL_MENU_DATA } from '@/data/menuWithModifiers';
 import FloatingCartBar from '@/components/cart/CartBar';
+import { Categories } from '@/types/menu';
 
 const USE_MOCK = true;
 

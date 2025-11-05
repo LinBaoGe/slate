@@ -3,7 +3,7 @@
 import { useInView } from 'react-intersection-observer';
 import MenuItemCard from './MenuItemCard';
 import { useEffect } from 'react';
-import { MenuItemWithModifiers } from '@/data/menuWithModifiers';
+import { MenuItemWithModifiers } from '@/types/menu';
 
 interface CategorySectionProps {
   category: string;

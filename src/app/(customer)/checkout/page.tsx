@@ -1,13 +1,14 @@
 'use client';
 
-import { useCartStore, CartItem } from '@/store/cartStore';
-import { selectCartTotalPrice, selectCartTotalQuantity } from '@/store/cartStore';
+import { useCartStore } from '@/store/cart/cart.store';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { CartItem } from '@/store/cart/cart.types';
+import { selectCartTotalPrice, selectCartTotalQuantity } from '@/store/cart/cart.selectors';
 
 // 子组件：用于显示订单摘要中的单项
 function OrderSummaryItem({ item }: { item: CartItem }) {

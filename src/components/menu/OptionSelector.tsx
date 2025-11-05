@@ -1,4 +1,4 @@
-import { ModifierGroup } from '@/data/menuWithModifiers';
+import { ModifierGroup } from '@/types/menu';
 
 interface OptionSelectorProps {
   groups: ModifierGroup[];

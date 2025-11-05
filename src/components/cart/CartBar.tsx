@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useCartStore, selectCartTotalPrice, selectCartTotalQuantity } from '@/store/cartStore';
+import { useCartStore } from '@/store/cart/cart.store';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -14,6 +14,7 @@ import {
 import { ShoppingCart, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { selectCartTotalPrice, selectCartTotalQuantity } from '@/store/cart/cart.selectors';
 
 function CartDetailSheet() {
   const items = useCartStore((state) => state.items);

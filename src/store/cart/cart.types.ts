@@ -16,6 +16,7 @@ export interface CartState {
   addItem: (itemToAdd: ItemToAdd) => void;
   removeItem: (cartItemId: string) => void;
   updateItemQuantity: (cartItemId: string, newQuantity: number) => void;
+  updateSimpleItemQuantity: (item: MenuItem, newQuantity: number) => void;
   clearCart: () => void;
 }
 
@@ -44,9 +45,18 @@ interface DoNothingPayload {
   items: CartItem[];
 }
 
-// 使用“可辨识联合类型”来统一所有可能性
 type UpdatePayload =
   | UpdateQuantityPayload
   | RemoveItemPayload
   | AddNewItemPayload
   | DoNothingPayload;
+
+type UpdateHandler<P> = (payload: P) => CartItem[];
+
+// --- “策略”到“载荷” ---
+interface StrategyToPayloadMap {
+  UPDATE_QUANTITY: UpdateQuantityPayload;
+  REMOVE_ITEM: RemoveItemPayload;
+  ADD_NEW_ITEM: AddNewItemPayload;
+  DO_NOTHING: DoNothingPayload;
+}

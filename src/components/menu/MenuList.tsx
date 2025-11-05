@@ -2,7 +2,7 @@
 
 import CategorySection from './CategorySection';
 import { useState, useCallback, useEffect } from 'react';
-import { Categories } from '@/data/menuWithModifiers';
+import { Categories } from '@/types/menu';
 
 interface MenuListProps {
   menuData: Categories[];

@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import {
   Table,
   TableBody,
@@ -14,16 +9,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { MenuItem } from '@/data/menu'; // 复用类型
+import { MenuItem } from '@/types/menu';
 
-// 1. 定义表格的列
 export const columns: ColumnDef<MenuItem>[] = [
   { accessorKey: 'name', header: '菜品名称' },
   { accessorKey: 'description', header: '描述' },
   {
     accessorKey: 'price',
     header: '价格',
-    cell: ({ row }) => `¥${row.original.price.toFixed(2)}`,
+    cell: ({ row }) => `¥${row.original.basePrice.toFixed(2)}`,
   },
   { accessorKey: 'category', header: '分类' },
   // 稍后我们会在这里添加一个“操作”列
@@ -49,10 +43,7 @@ export default function MenuTable({ data }: MenuTableProps) {
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableHead key={header.id}>
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  )}
+                  {flexRender(header.column.columnDef.header, header.getContext())}
                 </TableHead>
               ))}
             </TableRow>
