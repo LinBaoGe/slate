@@ -44,3 +44,11 @@ export function addNewSimpleItemToList(
   };
   return [...items, newCartItem];
 }
+
+export const getItemOperationType = (existingItem: CartItem | undefined, newQuantity: number) => {
+  if (existingItem) {
+    return newQuantity > 0 ? 'UPDATE' : 'REMOVE';
+  } else {
+    return newQuantity > 0 ? 'ADD' : 'NO_OP';
+  }
+};

@@ -2,8 +2,13 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { isEqual } from 'lodash';
 import { CartItem, CartState } from '@/store/cart/cart.types';
-import { calculateUpdatedItem, createNewCartItem } from '@/store/cart/cart.actions';
+import {
+  calculateUpdatedItem,
+  createNewCartItem,
+  getItemOperationType,
+} from '@/store/cart/cart.actions';
 
+// 根据商品在购物车中的存在状态和数量变化来分类处理不同的业务逻辑
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
@@ -59,36 +64,30 @@ export const useCartStore = create<CartState>()(
           (item) => item.id === itemToUpdate.id && !item.selectedOptions,
         );
 
-        if (existingItem) {
-          if (newQuantity > 0) {
-            // 3a. 用户期望的新数量大于 0 (比如从 2 -> 3, 或 2 -> 1)
-            // 我们需要“更新”它的数量
+        const operation = getItemOperationType(existingItem, newQuantity);
+        switch (operation) {
+          case 'UPDATE':
             set({
               items: items.map((item) =>
-                item.cartItemId === existingItem.cartItemId
+                item.cartItemId === existingItem!.cartItemId
                   ? { ...item, quantity: newQuantity }
                   : item,
               ),
             });
-          } else {
-            // newQuantity is 0
-            // 用户期望的新数量为 0 (比如从 1 -> 0) 我们需要“移除”这个商品
-            removeItem(existingItem.cartItemId);
-          }
-        } else {
-          // --- 情况 B: 商品还不存在于购物车中 ---
-          if (newQuantity > 0) {
-            // 用户期望的新数量大于 0 (比如从 0 -> 1)
+            break;
+          case 'REMOVE':
+            removeItem(existingItem!.cartItemId);
+            break;
+          case 'ADD':
             addItem({
               ...itemToUpdate,
               quantity: newQuantity,
               unitPrice: itemToUpdate.basePrice, // 简单商品的单价就是基础价
               selectedOptions: undefined,
             });
-          }
-          // else { (newQuantity is 0)
-          //   // 商品不存在，新数量也是0，什么都不用做
-          // }
+            break;
+          case 'NO_OP':
+            break;
         }
       },
 
