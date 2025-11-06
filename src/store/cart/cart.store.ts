@@ -67,16 +67,22 @@ export const useCartStore = create<CartState>()(
         const operation = getItemOperationType(existingItem, newQuantity);
         switch (operation) {
           case 'UPDATE':
+            if (!existingItem) {
+              throw new Error('UPDATE needs existingItem');
+            }
             set({
               items: items.map((item) =>
-                item.cartItemId === existingItem!.cartItemId
+                item.cartItemId === existingItem.cartItemId
                   ? { ...item, quantity: newQuantity }
                   : item,
               ),
             });
             break;
           case 'REMOVE':
-            removeItem(existingItem!.cartItemId);
+            if (!existingItem) {
+              throw new Error('REMOVE needs existingItem');
+            }
+            removeItem(existingItem.cartItemId);
             break;
           case 'ADD':
             addItem({
@@ -88,6 +94,9 @@ export const useCartStore = create<CartState>()(
             break;
           case 'NO_OP':
             break;
+
+          default:
+            throw new Error(`未知的操作类型: ${operation}`);
         }
       },
 
