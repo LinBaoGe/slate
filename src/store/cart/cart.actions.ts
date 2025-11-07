@@ -45,6 +45,7 @@ export function addNewSimpleItemToList(
   return [...items, newCartItem];
 }
 
+// Finite State Machine
 export const getItemOperationType = (existingItem: CartItem | undefined, newQuantity: number) => {
   if (existingItem) {
     return newQuantity > 0 ? 'UPDATE' : 'REMOVE';

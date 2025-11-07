@@ -8,6 +8,8 @@ import { useSearchParams } from 'next/navigation';
 import { MOCK_FULL_MENU_DATA } from '@/data/menuWithModifiers';
 import FloatingCartBar from '@/components/cart/CartBar';
 import { Categories } from '@/types/menu';
+import { useSessionStore } from '@/store/sessionStore';
+import { v4 as uuidv4 } from 'uuid';
 
 const USE_MOCK = true;
 
@@ -18,7 +20,7 @@ const fetchMenu = async (restaurantId: string): Promise<Categories[]> => {
 
   const res = await fetch(`/api/customer/menu?restaurant_id=${restaurantId}`);
   if (!res.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error('Network response was not available');
   }
   return res.json();
 };
@@ -28,14 +30,27 @@ export default function MenuPage() {
   const restaurantId = searchParams.get('restaurant_id') ?? '';
   const [activeCategory, setActiveCategory] = useState<string>('');
   const isScrollingProgrammatically = useRef(false);
+  const { sessionId, tableId, setSession } = useSessionStore();
+
+  useEffect(() => {
+    const table = searchParams.get('table');
+    let sid = localStorage.getItem('session_id');
+
+    if (!sid) {
+      sid = uuidv4();
+      localStorage.setItem('session_id', sid);
+    }
+
+    if (table) setSession(sid, table);
+  }, [setSession]);
 
   const {
     data: menuData,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['menu'], // 缓存的键
-    queryFn: () => fetchMenu(restaurantId), // 获取数据的函数
+    queryKey: ['menu'],
+    queryFn: () => fetchMenu(restaurantId),
   });
 
   const categories = useMemo(() => {
@@ -49,7 +64,6 @@ export default function MenuPage() {
     }
   }, [categories]);
 
-  // 5. 处理加载和错误状态
   if (isLoading) {
     return <MenuLoadingSkeleton />; // 显示一个加载中的占位界面
   }
@@ -58,23 +72,16 @@ export default function MenuPage() {
     return <div>加载菜单失败，请稍后再试。</div>;
   }
 
-  // 1. 新增一个 ref 来追踪是否正在进行程序化滚动
-  // 使用 ref 是因为它不会触发重渲染，我们只需要一个标志位
-
-  // 2. 修改点击处理函数
   const handleCategoryClick = (category: string) => {
     setActiveCategory(category);
 
-    // 告诉系统，我们即将开始一次“自动滚动”
     isScrollingProgrammatically.current = true;
 
     const element = document.getElementById(`category-${category}`);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
 
-      // 我们需要知道滚动何时结束。
       // 'smooth' 滚动没有原生的 'onEnd' 事件，我们用一个 setTimeout 来模拟。
-      // 这是一个常见的、虽然不完美但有效的技巧。
       setTimeout(() => {
         isScrollingProgrammatically.current = false;
       }, 800); // 800ms 应该足够大部分平滑滚动完成
@@ -102,10 +109,9 @@ export default function MenuPage() {
 
   return (
     <>
-      <div></div>
+      <div>sessionId: {sessionId}</div>
+      <div>tableId: {tableId}</div>
       <div className="flex h-screen">
-        {/* 使用 Flexbox 创建左右布局，并占满整个屏幕高度 */}
-        {/* 左侧：分类导航 */}
         <aside className="w-1/4 overflow-y-auto bg-slate-100 p-4">
           <h2 className="mb-4 text-xl font-bold">分类</h2>
           <nav>
@@ -128,7 +134,6 @@ export default function MenuPage() {
           </nav>
         </aside>
 
-        {/* 右侧：菜品列表 */}
         <main className="w-3/4 overflow-y-auto p-4" onScroll={handleMainScroll}>
           <h1 className="mb-8 text-3xl font-bold">菜单</h1>
           {menuData && (
