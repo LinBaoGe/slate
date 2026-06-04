@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String       @id @default(uuid())
+  account     String       @unique
+  password    String
+  restaurants Restaurant[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("user")
+}
+
+// 1. 餐廳模型
+model Restaurant {
+  id         String     @id @default(uuid())
+  name       String?
+  categories Category[]
+  
+  // userId String?
+  // user   User?   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+
+  @@map("restaurant") 
+}
+
+// 2. 菜品分類模型
+model Category {
+  id           String     @id @default(uuid())
+  name         String
+  displayOrder Int        @default(0) @map("display_order")
+  restaurantId String     @map("restaurant_id")
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  menuItems    MenuItem[]
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@index([restaurantId])
+  @@map("category") 
+}
+
+// 3. 菜品/單品模型
+model MenuItem {
+  id             String          @id @default(uuid())
+  name           String
+  description    String?
+  basePrice      Decimal         @map("base_price") @db.Decimal(10, 2)
+  imageUrl       String?         @map("image_url")
+  displayOrder   Int             @default(0) @map("display_order")
+  isAvailable    Boolean         @default(true) @map("is_available")
+  categoryId     String          @map("category_id")
+  category       Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  modifierGroups ModifierGroup[]
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  @@index([categoryId])
+  @@map("menu_item")
+}
+
+// 4. 規格組/修飾符組模型
+model ModifierGroup {
+  id            String           @id @default(uuid())
+  name          String
+  selectionType SelectionType    @default(SINGLE) @map("selection_type")
+  isRequired    Boolean          @default(false) @map("is_required")
+  displayOrder  Int              @default(0) @map("display_order")
+  menuItemId    String           @map("menu_item_id")
+  menuItem      MenuItem         @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  options       ModifierOption[]
+  createdAt     DateTime         @default(now()) @map("created_at")
+  updatedAt     DateTime         @updatedAt @map("updated_at")
+
+  @@index([menuItemId])
+  @@map("modifier_group") 
+}
+
+// 單選/多選枚舉（在數據庫中同樣映射為小寫）
+enum SelectionType {
+  SINGLE   @map("single")
+  MULTIPLE @map("multiple")
+
+  @@map("selection_type")
+}
+
+// 5. 規格選項模型
+model ModifierOption {
+  id              String        @id @default(uuid())
+  name            String
+  priceDelta      Decimal       @default(0.00) @map("price_delta") @db.Decimal(10, 2)
+  displayOrder    Int           @default(0) @map("display_order")
+  isDefault       Boolean       @default(false) @map("is_default")
+  isAvailable     Boolean       @default(true) @map("is_available")
+  modifierGroupId String        @map("modifier_group_id")
+  modifierGroup   ModifierGroup @relation(fields: [modifierGroupId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([modifierGroupId])
+  @@map("modifier_option") 
+}

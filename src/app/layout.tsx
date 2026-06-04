@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryProvider>
-          <AuthListener />
+          {/* <AuthListener /> */}
           {children} {/* 所有的子布局 (customer/menu) 都会在这里渲染 */}
         </QueryProvider>
       </body>

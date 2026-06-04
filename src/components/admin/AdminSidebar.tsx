@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import SignOutButton from '@/components/auth/SignOutButton';
-import { useAuthStore } from '@/store/authStore';
+// import { useAuthStore } from '@/store/authStore';
 
 export default function AdminSidebar() {
-  const { user } = useAuthStore();
+  // const { user } = useAuthStore();
 
   return (
     <aside className="flex w-64 flex-shrink-0 flex-col bg-slate-800 p-4 text-white">
@@ -14,7 +14,7 @@ export default function AdminSidebar() {
       <nav className="flex-grow">
         <ul>
           <li>
-            <Link href="/admin/dashboard" className="block py-2">
+            <Link href="/admin" className="block py-2">
               仪表盘
             </Link>
           </li>
@@ -28,17 +28,22 @@ export default function AdminSidebar() {
               订单管理
             </Link>
           </li>
+          <li>
+            <Link href="/admin/restaurant" className="block py-2">
+              店铺管理
+            </Link>
+          </li>
         </ul>
       </nav>
 
       <div className="mt-auto">
-        {user && (
-          <div className="mb-4 text-sm">
-            <p>已登录为:</p>
-            <p className="font-semibold break-all">{user.email}</p>
-          </div>
-        )}
-        <SignOutButton />
+        {/* {user && ( */}
+        <div className="mb-4 text-sm">
+          <p>已登录为:</p>
+          <p className="font-semibold break-all">{'user.email'}</p>
+        </div>
+        {/* )} */}
+        {/* <SignOutButton /> */}
       </div>
     </aside>
   );
